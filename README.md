@@ -43,6 +43,45 @@ Install Python dependencies:
 sudo pip3 install bleak paho-mqtt
 ```
 
+## Bluetooth pairing requirement (important)
+
+On this setup, the Tru-Test S3 required **manual pairing via `bluetoothctl`**. Without pairing first, the BLE connection would fail.
+First time connection only.
+
+### Pair using `bluetoothctl`
+
+1) Start `bluetoothctl`:
+
+```bash
+bluetoothctl
+```
+
+2) In the `bluetoothctl` prompt, run (example flow):
+
+```text
+power on
+agent on
+default-agent
+scan on
+```
+
+Wait until you see your S3 appear (often named like `S3 123456`) and note its MAC address.
+
+3) Pair + trust the device (replace MAC):
+
+```text
+pair AA:BB:CC:DD:EE:FF
+trust AA:BB:CC:DD:EE:FF
+connect AA:BB:CC:DD:EE:FF
+scan off
+quit
+```
+
+After this, `s3_ble_scale.py` should be able to connect reliably.
+
+> Tip: If you have repeated connection issues, removing and re-pairing can help:
+> `remove AA:BB:CC:DD:EE:FF`
+
 ## MQTT interface
 
 Default base topic is:
@@ -135,8 +174,6 @@ sudo useradd --system --home /opt/auto-weigh --create-home --shell /usr/sbin/nol
 sudo usermod -aG bluetooth auto-weigh
 ```
 
-> Note: group `bluetooth` access can matter for BLE on some setups. If you still get permission issues, run the service as `pi` temporarily while debugging.
-
 ### 2) Ensure repo lives here
 
 - `/opt/auto-weigh/Node-Red-Livestock-Auto-Weigher`
@@ -221,6 +258,7 @@ Planned/optional:
 ### No BLE device found
 - Ensure Bluetooth is enabled: `sudo systemctl status bluetooth`
 - Ensure the S3 is powered on and advertising
+- Ensure you have paired the device (see **Bluetooth pairing requirement** above)
 - Try pinning the device with `--address`
 
 ### Script connects but no weight messages
