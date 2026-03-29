@@ -1,0 +1,45 @@
+[
+    {
+        "id": "bd7a55e4945784fb",
+        "type": "mqtt in",
+        "z": "c82c4a67f528c1f6",
+        "name": "S3 error",
+        "topic": "auto_weigh/s3/error",
+        "qos": "1",
+        "datatype": "json",
+        "broker": "b1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 260,
+        "y": 560,
+        "wires": [
+            [
+                "ce15556214a982e8"
+            ]
+        ]
+    },
+    {
+        "id": "b1",
+        "type": "mqtt-broker",
+        "name": "Local Mosquitto",
+        "broker": "127.0.0.1",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    }
+]
